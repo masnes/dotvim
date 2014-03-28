@@ -97,6 +97,15 @@
 "}}}
 
 " functions {{{
+
+  function! NumberToggle() "{{{
+    if(&relativenumber == 1)
+      set norelativenumber
+    else
+      set relativenumber
+    endif
+  endfunc "}}}
+
   function! Preserve(command) "{{{
     " preparation: save last search, and cursor position.
     let _s=@/
@@ -108,6 +117,7 @@
     let @/=_s
     call cursor(l, c)
   endfunction "}}}
+
   function! StripTrailingWhitespace() "{{{
     call Preserve("%s/\\s\\+$//e")
   endfunction "}}}
@@ -116,6 +126,7 @@
       call mkdir(expand(a:path))
     endif
   endfunction "}}}
+
   function! CloseWindowOrKillBuffer() "{{{
     let number_of_windows_to_this_buffer = len(filter(range(1, winnr('$')), "winbufnr(v:val) == bufnr('%')"))
 
@@ -239,6 +250,7 @@
   set showmatch                                       "automatically highlight matching braces/brackets/etc.
   set matchtime=2                                     "tens of a second to show matching parentheses
   set number
+  set relativenumber
   set lazyredraw
   set laststatus=2
   set noshowmode
@@ -714,10 +726,13 @@
   " formatting shortcuts
   nmap <leader>fef :call Preserve("normal gg=G")<CR>
   nmap <leader>fs :call StripTrailingWhitespace()<CR>
+  nmap <leader>nt :call NumberToggle()<CR>
   vmap <leader>s :sort<cr>
 
+  nnoremap <leader>ss :setlocal spell!<cr>
   nnoremap <leader>w :w<cr>
 
+  nnoremap <leader><CR> :set hlsearch! hlsearch?<cr>
   nnoremap <BS> :noh<cr>
 
   " toggle paste
@@ -839,7 +854,6 @@
 
   " general
   nmap <leader>l :set list! list?<cr>
-  nnoremap <leader><CR> :set hlsearch! hlsearch?<cr>
 
   map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
         \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
@@ -872,6 +886,14 @@
   autocmd FileType python setlocal foldmethod=indent
   autocmd FileType markdown setlocal nolist
   autocmd FileType vim setlocal fdm=indent keywordprg=:help
+
+  autocmd BufNewFile,BufRead *.tex setfiletype tex
+  autocmd FileType tex setlocal foldmethod=manual
+
+  autocmd FocusLost * :set norelativenumber
+  autocmd FocusGained * :set relativenumber
+  autocmd InsertEnter * :set norelativenumber
+  autocmd InsertLeave * :set relativenumber
 "}}}
 
 " color schemes {{{
