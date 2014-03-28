@@ -31,5 +31,5 @@ Here's a general overview of what's different:
   * leader-cr now toggles :hlsearch
   * q: now opens command window in normal mode instead of insert mode
   * gj and gk added - function like j and k in unmodified vim 
-    *ignore screenwrapping when changing lines
+    * ignore screenwrapping when changing lines
   * swapped function of 0 and ^. Use 0 to go to the soft BOL, ^ or g0 to go to the hard BOL
