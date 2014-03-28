@@ -6,8 +6,6 @@ What I use with vim
 
 This is what I currently use as my vim configuration. It's built off of [bling's configuration](https://github.com/bling/dotvim), but with numerous changes. 
 
-keep vimrc in this folder. .vimrc, on the other hand, is my personal vimrc file in my ~/ folder. 
-
 Here's a general overview of what's different:
 * Added check for osx to vimrc.
 * Added support for osx terminal ^[[A - ^[[D. arrow character associations
@@ -33,7 +31,8 @@ Here's a general overview of what's different:
   * Added vim-exchange plugin
   * Added eclim plugin 
 * Mappings
-  * leader-w saves file
+  * leader-w saves file 
+    * same as blings setup, but awesome enough to reiterate here
   * leader-ss turns on/off spell checking
   * Tab no longer expands neosnippets (it now only affects autocompletion)
     * Use ctrl-f in terminal, and/or ctrl-tab in gui to expand snippets
@@ -46,5 +45,3 @@ Here's a general overview of what's different:
   * swapped function of 0 and ^. Use 0 to go to the soft BOL, ^ or g0 to go to the hard BOL
 * Functions
   * Added function to toggle relative numbering
-* .vimrc changes 
-  * 
