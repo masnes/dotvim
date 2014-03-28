@@ -22,7 +22,9 @@ Here's a general overview of what's different:
   * Added gundo
     * use gundu with leader-u
   * Added LaTeX-Box plugin
+    * Added TeX spell files
   * Added vim-exchange plugin
+  * Added eclim plugin 
 * Mappings
   * Tab no longer expands neosnippets (it now only affects autocompletion)
     * Use ctrl-f in terminal, and/or ctrl-tab in gui to expand snippets
