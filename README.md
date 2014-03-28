@@ -18,11 +18,11 @@ Here's a general overview of what's different:
   * Disabled initial folding 
 * Plugin changes
   * Removed auto-pairs plugin
-  * Added LaTeX-Box plugin
-  * Added vim-exchange plugin
   * Removed undotree
   * Added gundo
     * use gundu with leader-u
+  * Added LaTeX-Box plugin
+  * Added vim-exchange plugin
 * Mappings
   * Tab no longer expands neosnippets (it now only affects autocompletion)
     * Use ctrl-f in terminal, and/or ctrl-tab in gui to expand snippets
