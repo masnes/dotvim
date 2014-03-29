@@ -195,7 +195,7 @@
   set display+=lastline
   set wildmenu                                        "show list for autocomplete
   set wildmode=list:full
-  set wildignorecase
+  "set wildignorecase
   set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/.DS_Store
 
   set splitbelow
