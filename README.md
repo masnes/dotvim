@@ -9,6 +9,7 @@ This is what I currently use as my vim configuration. It's built off of [bling's
 Here's a general overview of what's different:
 * Added check for osx to vimrc.
 * Added support for osx terminal ^[[A - ^[[D. arrow character associations
+  * Added support for osx terminal tmux's slightly different ^[OA - ^[OD associations
 * Defaults
   * Set relative numbering in normal mode by default 
     * toggle this with leader-nt
