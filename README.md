@@ -35,7 +35,7 @@ Here's a general overview of what's different:
     * same as blings setup, but awesome enough to reiterate here
   * leader-ss turns on/off spell checking
   * Tab no longer expands neosnippets (it now only affects autocompletion)
-    * Use ctrl-f in terminal, and/or ctrl-tab in gui to expand snippets
+    * Use ctrl-j in terminal, and/or ctrl-tab in gui to expand snippets
   * use gundu with leader-u
   * backspace now toggles :nohighlight
   * leader-cr now toggles :hlsearch
