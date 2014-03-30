@@ -1,16 +1,28 @@
 " vim: fdm=marker ts=2 sts=2 sw=2 fdl=0
 
-" detect OS {{{
   let s:is_windows = has('win32') || has('win64')
   let s:is_cygwin = has('win32unix')
   let s:is_macvim = has('gui_macvim')
+  "
+" detect OS {{{
   if has("unix")
     let s:uname = system("uname")
     if s:uname == "Darwin\n"
       let s:is_osx = 1
+    else
+      let s:is_osx = 0
     endif
+  else
+    let s:is_osx = 0
   endif
 "}}}
+" detect TMUX {{{
+  if exists('$TMUX')
+    let s:is_tmux = 1
+  else 
+    let s:is_tmux = 0
+  endif
+" }}}
 
 " dotvim settings {{{
   if !exists('g:dotvim_settings') || !exists('g:dotvim_settings.version')
@@ -742,12 +754,20 @@
   " mac mappings {{{
     if s:is_osx
       " remap osx terminal arrow key characters to vim arrow keys
-      set t_kl=[D
-      set t_kr=[C
-      set t_ku=[A
-      set t_kd=[B
+      if s:is_tmux
+        set t_kl=OD
+        set t_kr=OC
+        set t_kd=OB
+        set t_ku=OA
+      else
+        set t_kl=[D
+        set t_kr=[C
+        set t_kd=[B
+        set t_ku=[A
+      endif
     endif
   " }}}
+
   nnoremap <Left> :bprevious<CR>
   nnoremap <Right> :bnext<CR>
   nnoremap <Up> :tabnext<CR>
