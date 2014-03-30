@@ -7,7 +7,7 @@ What I use with vim
 This is what I currently use as my vim configuration. It's built off of [bling's configuration](https://github.com/bling/dotvim), but with numerous changes. 
 
 Here's a general overview of what's different:
-* Added check for osx to vimrc.
+* Added check for osx to vimrc. al
 * Added support for osx terminal ^[[A - ^[[D. arrow character associations
   * Added support for osx terminal tmux's slightly different ^[OA - ^[OD associations
 * Defaults
