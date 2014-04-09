@@ -1,0 +1,217 @@
+diff --git a/vimrc b/vimrc
+index 1555bb9..984f27b 100644
+--- a/vimrc
++++ b/vimrc
+@@ -4,6 +4,12 @@
+   let s:is_windows = has('win32') || has('win64')
+   let s:is_cygwin = has('win32unix')
+   let s:is_macvim = has('gui_macvim')
++  if has("unix")
++    let s:uname = system("uname")
++    if s:uname == "Darwin\n"
++      let s:is_osx = 1
++    endif
++  endif
+ "}}}
+ 
+ " dotvim settings {{{
+@@ -165,27 +171,30 @@
+   let &tabstop=s:settings.default_indent              "number of spaces per tab for display
+   let &softtabstop=s:settings.default_indent          "number of spaces per tab in insert mode
+   let &shiftwidth=s:settings.default_indent           "number of spaces when indenting
+-  set list                                            "highlight whitespace
++  set nolist                                            "highlight whitespace
+   set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
+   set shiftround
++  set wrap
+   set linebreak
+   let &showbreak='↪ '
++  set formatoptions+=t
+ 
+-  set scrolloff=1                                     "always show content after scroll
+-  set scrolljump=5                                    "minimum number of lines to scroll
++  set scrolloff=7                                     "always show content after scroll
++  set scrolljump=1                                    "minimum number of lines to scroll
+   set display+=lastline
+   set wildmenu                                        "show list for autocomplete
+   set wildmode=list:full
+-  set wildignorecase
++  "set wildignorecase
+   set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/.DS_Store
+ 
+   set splitbelow
+   set splitright
+ 
+   " disable sounds
+-  set noerrorbells
+-  set novisualbell
+-  set t_vb=
++  " set noerrorbells
++  " set novisualbell
++  " set t_vb=
++  set noeb vb t_vb=
+ 
+   " searching
+   set hlsearch                                        "highlight searches
+@@ -233,7 +242,7 @@
+   set lazyredraw
+   set laststatus=2
+   set noshowmode
+-  set foldenable                                      "enable folds by default
++  set nofoldenable                                      "enable folds by default
+   set foldmethod=syntax                               "fold via syntax of files
+   set foldlevelstart=99                               "open all folds by default
+   let g:xml_syntax_folding=1                          "enable xml folding
+@@ -426,10 +435,20 @@
+         let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
+         let g:neosnippet#enable_snipmate_compatibility=1
+ 
+-        imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ? "\<C-n>" : "\<TAB>")
+-        smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
++        imap <expr><TAB> pumvisible() ? "\<C-n>" : "<TAB>"
++        smap <expr><TAB> pumvisible() ? "\<C-n>" : "<TAB>"
+         imap <expr><S-TAB> pumvisible() ? "\<C-p>" : ""
+         smap <expr><S-TAB> pumvisible() ? "\<C-p>" : ""
++
++        " using / expanding snippets
++        imap <expr><C-F> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ? "\<C-n>" : "\<TAB>")
++        smap <expr><C-F> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
++        " Terminal vim won't recognize <C-TAB>
++        if has("gui_running")
++          imap <expr><C-TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ? "\<C-n>" : "\<TAB>")
++          smap <expr><C-TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
++        endif
++
+       "}}}
+     endif "}}}
+     if s:settings.autocomplete_method == 'neocomplete' "{{{
+@@ -460,6 +479,10 @@
+       vmap <Leader>a& :Tabularize /&<CR>
+       nmap <Leader>a= :Tabularize /=<CR>
+       vmap <Leader>a= :Tabularize /=<CR>
++      nmap <Leader>a; :Tabularize /;<CR>
++      vmap <Leader>a; :Tabularize /;<CR>
++      nmap <Leader>a;; :Tabularize /;\zs<CR>
++      vmap <Leader>a;; :Tabularize /;\zs<CR>
+       nmap <Leader>a: :Tabularize /:<CR>
+       vmap <Leader>a: :Tabularize /:<CR>
+       nmap <Leader>a:: :Tabularize /:\zs<CR>
+@@ -469,7 +492,9 @@
+       nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+       vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+     "}}}
+-    NeoBundle 'jiangmiao/auto-pairs'
++    NeoBundle 'LaTeX-Box-Team/LaTeX-Box'
++    NeoBundle 'tommcdo/vim-exchange'
++    "NeoBundle 'jiangmiao/auto-pairs'
+     NeoBundle 'justinmk/vim-sneak' "{{{
+       let g:sneak#streak = 1
+     "}}}
+@@ -480,10 +505,12 @@
+         let g:ackprg = "ag --nogroup --column --smart-case --follow"
+       endif
+     "}}}
+-    NeoBundleLazy 'mbbill/undotree', {'autoload':{'commands':'UndotreeToggle'}} "{{{
+-      let g:undotree_SplitLocation='botright'
+-      let g:undotree_SetFocusWhenToggle=1
+-      nnoremap <silent> <F5> :UndotreeToggle<CR>
++    NeoBundleLazy 'Vim-Scripts/gundo', {'autoload':{'commands':'GundoToggle'}} "{{{
++    let g:gundo_width = 40
++    let g:gundo_preview_height = 15
++    let g:gundo_right = 0
++    let g:gundo_preview_bottom = 1
++    nnoremap <leader>u :GundoToggle<CR>
+     "}}}
+     NeoBundleLazy 'EasyGrep', {'autoload':{'commands':'GrepOptions'}} "{{{
+       let g:EasyGrepRecursive=1
+@@ -686,19 +713,30 @@
+ " mappings {{{
+   " formatting shortcuts
+   nmap <leader>fef :call Preserve("normal gg=G")<CR>
+-  nmap <leader>f$ :call StripTrailingWhitespace()<CR>
++  nmap <leader>fs :call StripTrailingWhitespace()<CR>
+   vmap <leader>s :sort<cr>
+ 
+   nnoremap <leader>w :w<cr>
+ 
++  nnoremap <BS> :noh<cr>
++
+   " toggle paste
+   map <F6> :set invpaste<CR>:set paste?<CR>
+ 
+   " remap arrow keys
+-  nnoremap <left> :bprev<CR>
+-  nnoremap <right> :bnext<CR>
+-  nnoremap <up> :tabnext<CR>
+-  nnoremap <down> :tabprev<CR>
++  " mac mappings {{{
++    if s:is_osx
++      " remap osx terminal arrow key characters to vim arrow keys
++      set t_kl=[D
++      set t_kr=[C
++      set t_ku=[A
++      set t_kd=[B
++    endif
++  " }}}
++  nnoremap <Left> :bprevious<CR>
++  nnoremap <Right> :bnext<CR>
++  nnoremap <Up> :tabnext<CR>
++  nnoremap <Down> :tabprevious<CR>
+ 
+   " smash escape
+   inoremap jk <esc>
+@@ -720,12 +758,13 @@
+     nnoremap ? ?\v
+     vnoremap ? ?\v
+     nnoremap :s/ :s/\v
++    nnoremap :%s/ :%s/\v
+   " }}}
+ 
+   " command-line window {{{
+-    nnoremap q: q:i
+-    nnoremap q/ q/i
+-    nnoremap q? q?i
++    "nnoremap q: q:i
++    "nnoremap q/ q/i
++    "nnoremap q? q?i
+   " }}}
+ 
+   " folds {{{
+@@ -736,6 +775,8 @@
+   " }}}
+ 
+   " screen line scroll
++  nnoremap <silent> gj j
++  nnoremap <silent> gk k
+   nnoremap <silent> j gj
+   nnoremap <silent> k gk
+ 
+@@ -750,6 +791,10 @@
+     nnoremap <silent> <C-i> <C-i>zz
+   "}}}
+ 
++  " swapping funtions of ^ and 0 keys
++  nnoremap ^ 0
++  nnoremap 0 ^
++
+   " reselect visual block after indent
+   vnoremap < <gv
+   vnoremap > >gv
+@@ -765,7 +810,7 @@
+   " shortcuts for windows {{{
+     nnoremap <leader>v <C-w>v<C-w>l
+     nnoremap <leader>s <C-w>s
+-    nnoremap <leader>vsa :vert sba<cr>
++    snoremap <leader>vsa :vert sba<cr>
+     nnoremap <C-h> <C-w>h
+     nnoremap <C-j> <C-w>j
+     nnoremap <C-k> <C-w>k
+@@ -794,7 +839,7 @@
+ 
+   " general
+   nmap <leader>l :set list! list?<cr>
+-  nnoremap <BS> :set hlsearch! hlsearch?<cr>
++  nnoremap <leader><CR> :set hlsearch! hlsearch?<cr>
+ 
+   map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+         \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
