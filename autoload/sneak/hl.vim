@@ -21,11 +21,11 @@ func! sneak#hl#is_valid(hlgroup) "avoid junk like 'Cursor xxx cleared'
 endf
 
 if 0 == hlID("SneakPluginTarget")
-  highlight SneakPluginTarget guifg=white guibg=magenta ctermfg=white ctermbg=magenta
+  highlight SneakPluginTarget guifg=white guibg=#5f5faf ctermfg=white ctermbg=61
 endif
 
 if 0 == hlID("SneakStreakMask")
-  highlight SneakStreakMask guifg=magenta guibg=magenta ctermfg=magenta ctermbg=magenta
+  highlight SneakStreakMask guifg=#5f5faf guibg=#5f5faf ctermfg=61 ctermbg=61
 endif
 
 if 0 == hlID("SneakPluginScope")
@@ -37,7 +37,7 @@ if 0 == hlID("SneakPluginScope")
 endif
 
 if 0 == hlID("SneakStreakTarget")
-  highlight SneakStreakTarget guibg=magenta guifg=white gui=bold ctermbg=magenta ctermfg=white cterm=bold
+  highlight SneakStreakTarget guibg=#5f5faf guifg=white gui=bold ctermbg=61 ctermfg=white cterm=bold
 endif
 
 if 0 == hlID("SneakStreakStatusLine")
