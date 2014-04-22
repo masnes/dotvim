@@ -57,6 +57,7 @@
     call add(s:settings.plugin_groups, 'javascript')
     call add(s:settings.plugin_groups, 'ruby')
     call add(s:settings.plugin_groups, 'python')
+    call add(s:settings.plugin_groups, 'c++')
     call add(s:settings.plugin_groups, 'scala')
     call add(s:settings.plugin_groups, 'go')
     call add(s:settings.plugin_groups, 'scm')
@@ -65,7 +66,7 @@
     call add(s:settings.plugin_groups, 'navigation')
     call add(s:settings.plugin_groups, 'unite')
     call add(s:settings.plugin_groups, 'autocomplete')
-    " call add(s:settings.plugin_groups, 'textobj')
+    call add(s:settings.plugin_groups, 'textobj')
     call add(s:settings.plugin_groups, 'misc')
     if s:is_windows
       call add(s:settings.plugin_groups, 'windows')
@@ -73,7 +74,7 @@
 
     " exclude all language-specific plugins by default
     if !exists('g:dotvim_settings.plugin_groups_exclude')
-      let g:dotvim_settings.plugin_groups_exclude = ['web','javascript','ruby','python','go','scala']
+      let g:dotvim_settings.plugin_groups_exclude = ['web','javascript','ruby','go','scala']
     endif
     for group in g:dotvim_settings.plugin_groups_exclude
       let i = index(s:settings.plugin_groups, group)
@@ -113,9 +114,22 @@
   function! NumberToggle() "{{{
     if(&relativenumber == 1)
       set norelativenumber
+      let g:relativenumbertoggle = 0
+      call NumberInsertToggle()
     else
       set relativenumber
+      let g:relativenumbertoggle = 1
+      call NumberInsertToggle()
     endif
+  endfunc "}}}
+
+  function! NumberInsertToggle() "{{{
+  if exists('g:relativenumbertoggle')
+    if g:relativenumbertoggle == 1
+      autocmd InsertEnter * :set norelativenumber
+      autocmd InsertLeave * :set relativenumber
+    endif
+  endif
   endfunc "}}}
 
   function! Preserve(command) "{{{
@@ -262,7 +276,7 @@
   set showmatch                                       "automatically highlight matching braces/brackets/etc.
   set matchtime=2                                     "tens of a second to show matching parentheses
   set number
-  set relativenumber
+  set norelativenumber
   set lazyredraw
   set laststatus=2
   set noshowmode
@@ -405,6 +419,7 @@
     NeoBundleLazy 'davidhalter/jedi-vim', {'autoload':{'filetypes':['python']}} "{{{
       let g:jedi#popup_on_dot=0
     "}}}
+    NeoBundleLazy 'fs111/pydoc.vim', {'autoload':{'filetypes':['python']}}
   endif "}}}
   if count(s:settings.plugin_groups, 'scala') "{{{
     NeoBundle 'derekwyatt/vim-scala'
@@ -516,11 +531,18 @@
       nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
       vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
     "}}}
+    NeoBundle 'vim-scripts/AutoClose'
     NeoBundle 'LaTeX-Box-Team/LaTeX-Box'
+    NeoBundle 'jamessan/vim-gnupg'
     NeoBundle 'tommcdo/vim-exchange'
+    NeoBundle 'WolfgangMehner/vim-plugins'
     "NeoBundle 'jiangmiao/auto-pairs'
+    "NeoBundle 'vim-scripts/CRefVim'
     NeoBundle 'justinmk/vim-sneak' "{{{
+      " allow sneak mode
       let g:sneak#streak = 1
+      " make sure , goes to previous match for sneak (doesn't work otherwise)
+      nmap , <Plug>SneakPrevious
     "}}}
   endif "}}}
   if count(s:settings.plugin_groups, 'navigation') "{{{
@@ -774,8 +796,8 @@
   nnoremap <Down> :tabprevious<CR>
 
   " smash escape
-  inoremap jk <esc>
-  inoremap kj <esc>
+  "inoremap jk <esc>
+  "inoremap kj <esc>
 
   " change cursor position in insert mode
   inoremap <C-h> <left>
@@ -912,8 +934,7 @@
 
   autocmd FocusLost * :set norelativenumber
   autocmd FocusGained * :set relativenumber
-  autocmd InsertEnter * :set norelativenumber
-  autocmd InsertLeave * :set relativenumber
+
 "}}}
 
 " color schemes {{{
