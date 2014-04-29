@@ -799,9 +799,10 @@
   "inoremap jk <esc>
   "inoremap kj <esc>
 
-  " change cursor position in insert mode
-  inoremap <C-h> <left>
-  inoremap <C-l> <right>
+"  " change cursor position in insert mode
+"  " breaks xterm
+"  inoremap <C-h> <left>
+"  inoremap <C-l> <right>
 
   inoremap <C-u> <C-g>u<C-u>
 
