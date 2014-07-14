@@ -1,7 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
-let g:netrw_dirhist_1='/Users/michael/.vim'
-let g:netrw_dirhist_2='/Users/michael/Dropbox/Csci3104/homeworks/ps8/time/Untitled 2.numbers'
-let g:netrw_dirhist_3='/Users/michael/Documents/developing/sourcecode/workrave/build/osx'
-let g:netrw_dirhist_4='/Users/michael/Documents/developing'
-let g:netrw_dirhist_5='/Users/michael/.dropbox'
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/'
+let g:netrw_dirhist_2='/home/masnes/documents/school/graphics/project/proj/test'
+let g:netrw_dirhist_3='/home/masnes/.config/bspwm'
+let g:netrw_dirhist_4='/home/masnes/.vim'
+let g:netrw_dirhist_5='/home/masnes/sourcecode/stdlib/glibc-2.19/malloc'
+let g:netrw_dirhist_6='/home/masnes/.weechat-tutorial'
