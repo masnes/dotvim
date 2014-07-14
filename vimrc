@@ -19,7 +19,7 @@
 " detect TMUX {{{
   if exists('$TMUX')
     let s:is_tmux = 1
-  else 
+  else
     let s:is_tmux = 0
   endif
 " }}}
@@ -38,7 +38,7 @@
   " initialize default settings
   let s:settings = {}
   let s:settings.default_indent = 2
-  let s:settings.max_column = 120
+  let s:settings.max_column = 80
   let s:settings.autocomplete_method = 'neocomplcache'
   let s:settings.enable_cursorcolumn = 0
   let s:settings.colorscheme = 'jellybeans'
@@ -59,6 +59,8 @@
     call add(s:settings.plugin_groups, 'python')
     call add(s:settings.plugin_groups, 'c++')
     call add(s:settings.plugin_groups, 'scala')
+    call add(s:settings.plugin_groups, 'haskell')
+    call add(s:settings.plugin_groups, 'clojure')
     call add(s:settings.plugin_groups, 'go')
     call add(s:settings.plugin_groups, 'scm')
     call add(s:settings.plugin_groups, 'editing')
@@ -180,11 +182,13 @@
   set ttyfast                                         "assume fast terminal connection
   set viewoptions=folds,options,cursor,unix,slash     "unix/windows compatibility
   set encoding=utf-8                                  "set encoding for text
-  if exists('$TMUX')
-    set clipboard=
-  else
-    set clipboard=unnamed                             "sync with OS clipboard
-  endif
+
+  "if exists('$TMUX')
+  "  set clipboard=
+  "elseif s:is_osx
+  "  set clipboard=unnamed                             "sync with OS clipboard
+  "endif
+
   set hidden                                          "allow buffer switching without saving
   set autoread                                        "auto reload if file saved externally
   set fileformats+=mac                                "add mac to auto-detection of file format line endings
@@ -344,8 +348,12 @@
     NeoBundle 'matchit.zip'
     NeoBundle 'bling/vim-airline' "{{{
       let g:airline#extensions#tabline#enabled = 1
-      let g:airline#extensions#tabline#left_sep=' '
-      let g:airline#extensions#tabline#left_alt_sep='¦'
+      "let g:airline#extensions#tabline#left_sep='>'
+      "let g:airline#extensions#tabline#left_alt_sep='¦'
+      "let g:airline#extensions#tabline#right_sep='<'
+      "let g:airline#extensions#tabline
+      let g:airline_theme='luna'
+      let g:airline_powerline_fonts=1
     "}}}
     NeoBundle 'tpope/vim-surround'
     NeoBundle 'tpope/vim-repeat'
@@ -424,6 +432,15 @@
   if count(s:settings.plugin_groups, 'scala') "{{{
     NeoBundle 'derekwyatt/vim-scala'
     NeoBundle 'megaannum/vimside'
+  endif "}}}
+  if count(s:settings.plugin_groups, 'haskell') "{{{
+    NeoBundle 'eagletmt/ghcmod-vim'
+    NeoBundle 'eagletmt/neco-ghc'
+  endif "}}}
+  if count(s:settings.plugin_groups, 'clojure') "{{{
+    NeoBundle 'guns/vim-clojure-static'
+    NeoBundle 'amdt/vim-niji'
+    NeoBundle 'tpope/vim-fireplace'
   endif "}}}
   if count(s:settings.plugin_groups, 'go') "{{{
     NeoBundleLazy 'jnwhiteh/vim-golang', {'autoload':{'filetypes':['go']}}
@@ -510,6 +527,10 @@
     NeoBundle 'tpope/vim-speeddating'
     NeoBundle 'thinca/vim-visualstar'
     NeoBundle 'tomtom/tcomment_vim'
+    NeoBundle 'lilydjwg/colorizer' "{{{
+      let g:colorizer_startup=0
+      nmap <leader>ct <Plug>Colorizer
+      "}}}
     NeoBundle 'terryma/vim-expand-region'
     NeoBundle 'terryma/vim-multiple-cursors'
     NeoBundle 'chrisbra/NrrwRgn'
@@ -535,7 +556,8 @@
     NeoBundle 'LaTeX-Box-Team/LaTeX-Box'
     NeoBundle 'jamessan/vim-gnupg'
     NeoBundle 'tommcdo/vim-exchange'
-    NeoBundle 'WolfgangMehner/vim-plugins'
+    NeoBundle 'paradigm/TextObjectify'
+    "NeoBundle 'WolfgangMehner/vim-plugins'
     "NeoBundle 'jiangmiao/auto-pairs'
     "NeoBundle 'vim-scripts/CRefVim'
     NeoBundle 'justinmk/vim-sneak' "{{{
@@ -681,7 +703,8 @@
       if !has('gui_running')
         let g:indent_guides_auto_colors=0
         function! s:indent_set_console_colors()
-          hi IndentGuidesOdd ctermbg=235
+          "235 was old ctermbg value
+          hi IndentGuidesOdd ctermbg=none
           hi IndentGuidesEven ctermbg=236
         endfunction
         autocmd VimEnter,Colorscheme * call s:indent_set_console_colors()
@@ -967,3 +990,5 @@
   syntax enable
   NeoBundleCheck
 "}}}
+
+let g:C_Ctrl_j = 'off'
