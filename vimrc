@@ -212,7 +212,7 @@
   let &tabstop=s:settings.default_indent              "number of spaces per tab for display
   let &softtabstop=s:settings.default_indent          "number of spaces per tab in insert mode
   let &shiftwidth=s:settings.default_indent           "number of spaces when indenting
-  set nolist                                            "highlight whitespace
+  set nolist                                          "highlight whitespace
   set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
   set shiftround
   set wrap
@@ -434,8 +434,8 @@
     NeoBundle 'megaannum/vimside'
   endif "}}}
   if count(s:settings.plugin_groups, 'haskell') "{{{
-    NeoBundle 'eagletmt/ghcmod-vim'
-    NeoBundle 'eagletmt/neco-ghc'
+    "NeoBundle 'eagletmt/ghcmod-vim'
+    "NeoBundle 'eagletmt/neco-ghc'
   endif "}}}
   if count(s:settings.plugin_groups, 'clojure') "{{{
     NeoBundle 'guns/vim-clojure-static'
@@ -946,7 +946,7 @@
     \  exe 'normal! g`"zvzz' |
     \ endif
 
-  autocmd FileType js,scss,css autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+  "autocmd FileType js,scss,css autocmd BufWritePre <buffer> call StripTrailingWhitespace()
   autocmd FileType css,scss setlocal foldmethod=marker foldmarker={,}
   autocmd FileType css,scss nnoremap <silent> <leader>S vi{:sort<CR>
   autocmd FileType python setlocal foldmethod=indent
