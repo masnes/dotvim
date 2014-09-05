@@ -956,6 +956,8 @@
   autocmd BufNewFile,BufRead *.tex setfiletype tex
   autocmd FileType tex setlocal foldmethod=manual
 
+  autocmd BufNewFile,BufRead *.db setfiletype sql
+
   autocmd FocusLost * :set norelativenumber
   autocmd FocusGained * :set relativenumber
 
