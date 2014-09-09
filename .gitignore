@@ -1,4 +1,5 @@
-bundle
+bundle/*
+!bundle/vim-sneak/autoload/sneak/hl.vim
 !bundle/neobundle.vim
 .cache
 doc/tags*
