@@ -212,7 +212,7 @@
   let &tabstop=s:settings.default_indent              "number of spaces per tab for display
   let &softtabstop=s:settings.default_indent          "number of spaces per tab in insert mode
   let &shiftwidth=s:settings.default_indent           "number of spaces when indenting
-  set nolist                                          "highlight whitespace
+  set nolist                                          "(don't) highlight whitespace
   set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
   set shiftround
   set wrap
@@ -967,6 +967,7 @@
     let g:solarized_termtrans=1
   "}}}
   NeoBundle 'nanotech/jellybeans.vim'
+  NeoBundle 'whatyouhide/vim-gotham'
   NeoBundle 'tomasr/molokai'
   NeoBundle 'chriskempson/vim-tomorrow-theme'
   NeoBundle 'chriskempson/base16-vim'
